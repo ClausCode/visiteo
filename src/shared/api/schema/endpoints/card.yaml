@@ -1,0 +1,150 @@
+schemas:
+  Card:
+    type: object
+    required:
+      - id
+      - name
+      - userId
+      - isPublic
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      content:
+        type: string
+      userId:
+        type: string
+      isPublic:
+        type: boolean
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+
+  CreateCardRequest:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+
+  UpdateCardRequest:
+    type: object
+    properties:
+      name:
+        type: string
+      content:
+        type: string
+      isPublic:
+        type: boolean
+
+  CardsList:
+    type: array
+    items:
+      $ref: "#/schemas/Card"
+
+getAllCards:
+  summary: Получить все карточки пользователя
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Список карточек
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/CardsList"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+getCardById:
+  summary: Получить карточку по id
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: cardId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Карточка
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/Card"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+    "404":
+      $ref: "../shared/responses.yaml#/NotFoundError"
+
+createCard:
+  summary: Создать новую карточку
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/schemas/CreateCardRequest"
+  responses:
+    "201":
+      description: Карточка успешно создана
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/Card"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+updateCard:
+  summary: Обновить карточку
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: cardId
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/schemas/UpdateCardRequest"
+  responses:
+    "200":
+      description: Карточка успешно обновлена
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/Card"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+deleteCard:
+  summary: Удалить карточку
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: cardId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "204":
+      description: Карточка успешно удалена
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+    "404":
+      $ref: "../shared/responses.yaml#/NotFoundError"

@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Visiteo API
+  description: API for the Visiteo application
+  version: 1.0.0
+
+tags:
+  - name: auth
+    description: Аутентификация и авторизация
+  - name: cards
+    description: Управление карточками
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      $ref: "./endpoints/auth.yaml#/login"
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      $ref: "./endpoints/auth.yaml#/register"
+
+  /auth/refresh:
+    post:
+      tags:
+        - auth
+      $ref: "./endpoints/auth.yaml#/refresh"
+
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      $ref: "./endpoints/auth.yaml#/logout"
+
+  /user/current:
+    get:
+      tags:
+        - user
+      $ref: "./endpoints/user.yaml#/current"
+    patch:
+      tags:
+        - user
+      $ref: "./endpoints/user.yaml#/update"
+
+  /cards:
+    get:
+      tags:
+        - cards
+      $ref: "./endpoints/card.yaml#/getAllCards"
+    post:
+      tags:
+        - cards
+      $ref: "./endpoints/card.yaml#/createCard"
+
+  /cards/{cardId}:
+    get:
+      tags:
+        - cards
+      $ref: "./endpoints/card.yaml#/getCardById"
+    patch:
+      tags:
+        - cards
+      $ref: "./endpoints/card.yaml#/updateCard"
+    delete:
+      tags:
+        - cards
+      $ref: "./endpoints/card.yaml#/deleteCard"

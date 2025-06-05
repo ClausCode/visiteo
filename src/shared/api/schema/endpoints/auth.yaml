@@ -1,0 +1,112 @@
+schemas:
+  LoginRequest:
+    type: object
+    required:
+      - email
+      - password
+      - captcha
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: password
+      captcha:
+        type: string
+
+  RegisterRequest:
+    type: object
+    required:
+      - email
+      - password
+      - username
+      - captcha
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: password
+      username:
+        type: string
+      captcha:
+        type: string
+
+  AuthResponse:
+    type: object
+    required:
+      - accessToken
+      - user
+    properties:
+      accessToken:
+        type: string
+      user:
+        $ref: "./user.yaml#/schemas/User"
+
+login:
+  summary: Войти в систему
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/schemas/LoginRequest"
+  responses:
+    "200":
+      description: Вход выполнен успешно
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/AuthResponse"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+register:
+  summary: Зарегистрировать нового пользователя
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/schemas/RegisterRequest"
+  responses:
+    "201":
+      description: Регистрация выполнена успешно
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/AuthResponse"
+    "400":
+      $ref: "../shared/responses.yaml#/BadRequestError"
+
+refresh:
+  summary: Обновить access token
+  parameters:
+    - in: cookie
+      name: session
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Access token обновлен успешно
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/AuthResponse"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+logout:
+  summary: Выйти из системы
+  parameters:
+    - in: cookie
+      name: session
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Выход выполнен успешно
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"

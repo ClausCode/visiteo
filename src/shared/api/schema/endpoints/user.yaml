@@ -1,0 +1,62 @@
+schemas:
+  User:
+    type: object
+    required:
+      - id
+      - email
+      - username
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+        format: email
+      username:
+        type: string
+      avatar:
+        type: string
+        format: uri
+  UpdateUserRequest:
+    type: object
+    properties:
+      username:
+        type: string
+      avatar:
+        type: string
+        format: uri
+
+current:
+  summary: Получить текущего пользователя
+  security:
+    - bearerAuth: []
+  responses:
+    "200":
+      description: Пользователь получен успешно
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/User"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+
+update:
+  summary: Обновить профиль пользователя
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/schemas/UpdateUserRequest"
+  responses:
+    "200":
+      description: Профиль обновлен успешно
+      content:
+        application/json:
+          schema:
+            $ref: "#/schemas/User"
+    "401":
+      $ref: "../shared/responses.yaml#/UnauthorizedError"
+    "400":
+      $ref: "../shared/responses.yaml#/BadRequestError"

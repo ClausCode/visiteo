@@ -1,0 +1,32 @@
+UnauthorizedError:
+  description: Не авторизован
+  content:
+    application/json:
+      schema:
+        $ref: "#/schemas/Error"
+
+NotFoundError:
+  description: Ресурс не найден
+  content:
+    application/json:
+      schema:
+        $ref: "#/schemas/Error"
+
+BadRequestError:
+  description: Некорректный запрос
+  content:
+    application/json:
+      schema:
+        $ref: "#/schemas/Error"
+
+schemas:
+  Error:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: string

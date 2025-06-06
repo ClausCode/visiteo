@@ -71,13 +71,15 @@ export function CardListItem({ card }: { card: ApiSchemas["Card"] }) {
 						</div>
 					</div>
 					<div className="flex items-center space-x-2 opacity-100 transition-opacity group-hover:opacity-100 md:opacity-0">
-						<Button
-							size="sm"
-							variant="ghost"
-							className="size-12 p-0 hover:bg-blue-50 hover:text-blue-600 md:size-8"
-						>
-							<Share2 className="size-6 md:size-4" />
-						</Button>
+						<Link to={href(ROUTES.VIEW, { cardId: card.id })}>
+							<Button
+								size="sm"
+								variant="ghost"
+								className="size-12 p-0 hover:bg-blue-50 hover:text-blue-600 md:size-8"
+							>
+								<Share2 className="size-6 md:size-4" />
+							</Button>
+						</Link>
 						<Link to={href(ROUTES.CONSTRUCTOR, { cardId: card.id })}>
 							<Button
 								size="sm"

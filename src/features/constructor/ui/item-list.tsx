@@ -34,6 +34,7 @@ export function ItemList() {
 			<Button
 				className="size-12 select-none hover:text-blue-600"
 				variant="ghost"
+				disabled
 			>
 				<Settings className="size-6" />
 			</Button>
